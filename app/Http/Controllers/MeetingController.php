@@ -64,6 +64,10 @@ class MeetingController extends Controller
             'audio_file' => $fileName,
         ]);
 
+        //dump the meeting
+        dd($validatedData);
+        dd($fileName);
+
     }
 
     /**
