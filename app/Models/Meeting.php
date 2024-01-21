@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+
 
 class Meeting extends Model
 {
@@ -12,5 +14,16 @@ class Meeting extends Model
         'title',
         'description',
         'audio_file',
+        'user_id',
     ];
+
+    /**
+     * Get the user that owns the meeting.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }

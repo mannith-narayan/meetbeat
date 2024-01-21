@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\MeetingViewController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,15 +19,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//add a route that takes the user to the meetings view
+Route::get('/meetings', [MeetingViewController :: class, 'index'])
+    -> middleware(['auth', 'verified'])->name('home');
 
 Route::get('/meetings/create', [MeetingController :: class, 'create'])
     -> middleware(['auth', 'verified'])->name('meetings.create');
 
  Route::post('/meetings', [MeetingController :: class, 'store'])
     -> middleware(['auth', 'verified'])->name('meetings.store');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

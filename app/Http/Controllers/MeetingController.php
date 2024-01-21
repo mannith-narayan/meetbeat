@@ -62,11 +62,10 @@ class MeetingController extends Controller
             'title' => $validatedData['meeting-title'],
             'description' => $validatedData['meeting-desc'],
             'audio_file' => $fileName,
+            'user_id' => auth()->id(),
         ]);
-
-        //dump the meeting
-        dd($validatedData);
-        dd($fileName);
+        //route to home
+        return redirect()->route('home');
 
     }
 
