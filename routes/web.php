@@ -23,7 +23,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/meetings/create', [MeetingController :: class, 'create'])
-    -> middleware(['auth', 'verified'])->name('meetings/create');
+    -> middleware(['auth', 'verified'])->name('meetings.create');
+
+ Route::post('/meetings', [MeetingController :: class, 'store'])
+    -> middleware(['auth', 'verified'])->name('meetings.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

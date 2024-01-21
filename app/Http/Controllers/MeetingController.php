@@ -28,7 +28,24 @@ class MeetingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $messages = [
+            'meeting-title.required' => 'A meeting title is required',
+            'meeting-title.max' => 'The meeting title may not be greater than 256 characters.',
+            
+            'meeting-desc.required' => 'A meeting description is required.',
+            'meeting-desc.max' => 'The meeting description may not be greater than 1024 characters.',
+           
+            'audio-file.required' => 'An audio file is required.',
+            'audio-file.mimes' => 'The audio file must be a mp3, mp4, m4a or wav file.',
+            'audio-file.max' => 'The audio file may not be greater than 100MB.',
+          ];
+
+        $validatedData = $request->validate([
+            'meeting-title' => 'required|max:256',
+            'meeting-desc' => 'required|max:1024',
+            'audio-file' => 'required|file|mimes:mp3,mp4,m4a,wav|max:102400',
+          ], $messages);
+          dd($validatedData);
     }
 
     /**
