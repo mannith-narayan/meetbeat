@@ -23,7 +23,7 @@ class MeetingViewController extends Controller
             }
         } else {
             //if the user is not signed in, redirect them to the login page
-            return redirect()->route('login');
+            return redirect()->route('welcome');
         }
     }
 }
