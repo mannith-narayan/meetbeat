@@ -74,7 +74,7 @@ class MeetingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**

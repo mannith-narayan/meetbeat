@@ -17,7 +17,7 @@ class MeetingViewController extends Controller
             
 
             if ($meetings !== null && $meetings->count() > 0) {
-                return Response::view('meetings.with-meetings');
+                return Response::view('meetings.with-meetings', ['meetings' => $meetings]);
             } else {
                 return Response::view('meetings.no-meetings');
             }
