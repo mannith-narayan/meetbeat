@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Models\Meeting;
+use Illuminate\Support\Facades\Storage;
 
 class MeetingController extends Controller
 {
@@ -102,7 +103,16 @@ class MeetingController extends Controller
         $meeting = Meeting::findOrFail($id);
         
         if ($meeting->user_id == auth()->user()->id) {
+
+            //delete audio file
+            $audioFilePath = 'public/audio/' . $meeting->audio_file;
+            if (Storage::exists($audioFilePath)) {
+                Storage::delete($audioFilePath);
+            }
+
+            //delete entry in database
             $meeting->delete();
+
             return redirect()->route('home');
         } else {
             return Redirect::route('meetings.show')->with('error', 'Cannot delete this meeting');
