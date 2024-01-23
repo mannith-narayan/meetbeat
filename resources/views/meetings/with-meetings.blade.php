@@ -1,10 +1,10 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div class="overflow-hidden shadow-sm ">
+        <div class="shadow-sm ">
             <div class="p-6 border-b border-gray-200 flex justify-between items-center">
-                <h2 class="text-2xl font-bold mb-4 text-gray-400 ">Your Meetings</h2>
+                <h2 class="text-2xl font-bold mb-4 text-gray-400 ">My Uploaded Meetings</h2>
                 <a href="{{ route('meetings.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white text-base font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue">
-                    New Meeting
+                    Add Meeting
                 </a>
             </div>
 
@@ -25,7 +25,7 @@
                                     <td class="py-2 px-4 border-b">{{ $index + 1 }}</td>
                                     <td class="py-2 px-4 border-b">
                                         <!-- Wrap the entire row with an anchor tag -->
-                                        <a href="">
+                                        <a href="{{ route('meetings.show', $meeting->id) }}">
                                             {{ $meeting->title }}
                                         </a>
                                     </td>

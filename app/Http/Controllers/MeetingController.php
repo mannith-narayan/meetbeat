@@ -74,7 +74,8 @@ class MeetingController extends Controller
      */
     public function show(string $id)
     {
-        
+        $meeting = Meeting::findOrFail($id);
+        return view('meetings.show', ['title' => $meeting->title]);
     }
 
     /**

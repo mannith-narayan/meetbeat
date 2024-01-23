@@ -26,9 +26,14 @@ Route::get('/meetings', [MeetingViewController :: class, 'index'])
 Route::get('/meetings/create', [MeetingController :: class, 'create'])
     -> middleware(['auth', 'verified'])->name('meetings.create');
 
- Route::post('/meetings', [MeetingController :: class, 'store'])
+Route::post('/meetings', [MeetingController :: class, 'store'])
     -> middleware(['auth', 'verified'])->name('meetings.store');
 
+Route::get('/meetings/{meeting}', [MeetingController :: class, 'show'])
+    -> middleware(['auth', 'verified'])->name('meetings.show');
+
+Route::get('/meetings/{meeting}/edit', [MeetingController :: class, 'destroy'])
+    -> middleware(['auth', 'verified'])->name('meetings.destroy');
 
 
 Route::middleware('auth')->group(function () {
