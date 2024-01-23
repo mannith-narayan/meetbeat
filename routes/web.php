@@ -32,7 +32,7 @@ Route::post('/meetings', [MeetingController :: class, 'store'])
 Route::get('/meetings/{meeting}', [MeetingController :: class, 'show'])
     -> middleware(['auth', 'verified'])->name('meetings.show');
 
-Route::get('/meetings/{meeting}/edit', [MeetingController :: class, 'destroy'])
+Route::delete('/meetings/{meeting}', [MeetingController :: class, 'destroy'])
     -> middleware(['auth', 'verified'])->name('meetings.destroy');
 
 

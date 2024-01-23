@@ -99,6 +99,14 @@ class MeetingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        $meeting = Meeting::findOrFail($id);
+        
+        if ($meeting->user_id == auth()->user()->id) {
+            $meeting->delete();
+            return redirect()->route('home');
+        } else {
+            return Redirect::route('meetings.show')->with('error', 'Cannot delete this meeting');
+        }
+
+        }
 }
