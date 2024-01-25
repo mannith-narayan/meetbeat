@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Models\Meeting;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class MeetingController extends Controller
 {
@@ -13,7 +15,13 @@ class MeetingController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+            $meetings = $user->meetings;
+            if ($meetings !== null && $meetings->count() > 0) {
+                return Response::view('meetings.with-meetings', ['meetings' => $meetings]);
+            } else {
+                return Response::view('meetings.no-meetings');
+            }
     }
 
     /**
@@ -66,7 +74,6 @@ class MeetingController extends Controller
         ]);
         //route to home
         return redirect()->route('home');
-
     }
 
     /**
@@ -99,6 +106,17 @@ class MeetingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        $meeting = Meeting::findOrFail($id);
+
+        //delete audio file
+        $audioFilePath = 'public/audio/' . $meeting->audio_file;
+        if (Storage::exists($audioFilePath)) {
+            Storage::delete($audioFilePath);
+        }
+        //delete entry in database
+        $meeting->delete();
+
+        return redirect()->route('home');
+
+        }
 }
