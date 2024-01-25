@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 //add a route that takes the user to the meetings view
-Route::get('/meetings', [MeetingViewController :: class, 'index'])
+Route::get('/meetings', [MeetingController :: class, 'index'])
     -> middleware(['auth', 'verified'])->name('home');
 
 Route::get('/meetings/create', [MeetingController :: class, 'create'])
