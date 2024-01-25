@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+     /**
+     * Get the meetings associated with the user.
+     */
+    public function meetings()
+    {
+        return $this->hasMany(Meeting::class);
+    }
 }

@@ -62,11 +62,10 @@ class MeetingController extends Controller
             'title' => $validatedData['meeting-title'],
             'description' => $validatedData['meeting-desc'],
             'audio_file' => $fileName,
+            'user_id' => auth()->id(),
         ]);
-
-        //dump the meeting
-        dd($validatedData);
-        dd($fileName);
+        //route to home
+        return redirect()->route('home');
 
     }
 
@@ -75,7 +74,8 @@ class MeetingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $meeting = Meeting::findOrFail($id);
+        return view('meetings.show', ['title' => $meeting->title]);
     }
 
     /**
