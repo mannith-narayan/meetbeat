@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Response;
 use App\Models\Meeting;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use OpenAI;
+
 
 class MeetingController extends Controller
 {
@@ -66,14 +68,40 @@ class MeetingController extends Controller
         $audioFile->storeAs('public/audio', $fileName);
 
         //create the meeting
-        Meeting::create([
+        $meeting = Meeting::create([
             'title' => $validatedData['meeting-title'],
             'description' => $validatedData['meeting-desc'],
             'audio_file' => $fileName,
             'user_id' => auth()->id(),
         ]);
-        //route to home
+
+        $this->transcribe($meeting);
+
         return redirect()->route('home');
+    }
+
+    public function transcribe(Meeting $meeting)
+    {
+        $client = OpenAI::factory()
+            ->withBaseUri("https://meetbeat-openai.openai.azure.com/openai/deployments/whisper")
+            ->withQueryParam('api-version', '2023-09-01-preview')
+            ->withHttpHeader('api-key','' )
+            ->make();
+
+        $audioFilePath = storage_path('app/public/audio/' . $meeting->audio_file);        
+            
+        //transcibe the audio file  
+        $response = $client->audio()->transcribe([
+            'model' => 'whisper-1',
+            'file' => fopen($audioFilePath, 'r'),
+            'response_format' => 'verbose_json',
+        ]);
+        
+        //store the transcription
+        $meeting->update([
+            'transcript' => $response->text,
+        ]);
+
     }
 
     /**
@@ -119,4 +147,5 @@ class MeetingController extends Controller
         return redirect()->route('home');
 
         }
+
 }

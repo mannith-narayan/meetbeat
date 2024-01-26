@@ -15,6 +15,7 @@ class Meeting extends Model
         'description',
         'audio_file',
         'user_id',
+        'transcript',
     ];
 
     /**
