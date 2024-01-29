@@ -8,6 +8,7 @@ use App\Models\Meeting;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use OpenAI;
+use App\Jobs\TranscribeAudio;
 
 
 class MeetingController extends Controller
@@ -75,35 +76,12 @@ class MeetingController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        $this->transcribe($meeting);
+        TranscribeAudio::dispatch($meeting);
 
         return redirect()->route('home');
     }
 
-    public function transcribe(Meeting $meeting)
-    {
-        $client = OpenAI::factory()
-            ->withBaseUri("https://meetbeat-openai.openai.azure.com/openai/deployments/whisper")
-            ->withQueryParam('api-version', '2023-09-01-preview')
-            ->withHttpHeader('api-key','' )
-            ->make();
-
-        $audioFilePath = storage_path('app/public/audio/' . $meeting->audio_file);        
-            
-        //transcibe the audio file  
-        $response = $client->audio()->transcribe([
-            'model' => 'whisper-1',
-            'file' => fopen($audioFilePath, 'r'),
-            'response_format' => 'verbose_json',
-        ]);
-        
-        //store the transcription
-        $meeting->update([
-            'transcript' => $response->text,
-        ]);
-
-    }
-
+    
     /**
      * Display the specified resource.
      */
