@@ -31,7 +31,13 @@
                                     </td>
                                     <td class="py-2 px-4 border-b">{{ $meeting->created_at->format('M d, Y') }}</td>
                                     <td class="py-2 px-4 border-b">{{ $meeting->created_at->format('H:i A') }}</td>
-                                    <td class="py-2 px-4 border-b">Not Complete</td>
+                                    <td class="py-2 px-4 border-b">
+                                        @if ($meeting->transcript)
+                                                Complete
+                                        @else
+                                                Incomplete
+                                        @endif
+                                    </td>
                                 </tr>
                             
                             @endforeach
