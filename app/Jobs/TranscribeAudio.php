@@ -1,5 +1,5 @@
 <?php
-// phpcs:ignoreFile
+
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
@@ -141,10 +141,9 @@ class TranscribeAudio implements ShouldQueue
                 ['role' => 'user', 'content' => $transcript],
             ],
         ]);
-
+        
         $this->meeting->update([
             'summary' => $summary->choices[0]->message->content,
-        ]);
-            
+        ]);       
     }
 }
